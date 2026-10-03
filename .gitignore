@@ -1,6 +1,16 @@
 # Locally downloaded datasets and generated plots must not be committed.
 data/
 *.png
+.env
+.env.*
+!.env.example
+outputs/
+artifacts/
+models/
+*.joblib
+*.pickle
+*.pkl
+*.parquet
 .ipynb_checkpoints/
 __pycache__/
 *.py[cod]
