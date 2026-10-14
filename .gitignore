@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Local data and generated artifacts
+data/*
+!data/.gitkeep
+*.csv
+*.xlsx
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+*.png
+*.jpg
+*.jpeg
+outputs/
+artifacts/
+
+# Jupyter
+.ipynb_checkpoints/

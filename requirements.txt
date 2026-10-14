@@ -1,0 +1,11 @@
+# Runtime dependencies for the notebook
+numpy>=1.24,<3
+pandas>=2.0,<3
+scikit-learn>=1.2,<2
+matplotlib>=3.7,<4
+seaborn>=0.12,<1
+jupyter>=1.0,<2
+
+# Development / validation
+pytest>=7,<9
+ruff>=0.6,<1
