@@ -63,3 +63,26 @@ jupyter notebook 'Cancer screening code.ipynb'
 ```
 
 This is an engineering/research benchmark, not a clinical diagnostic device. Do not commit patient data, generated artifacts, or unverified metrics.
+
+## Second Senior Review
+
+This second review covered every tracked file, the full notebook source and metadata, prior history (`git log`/`git diff`), repository checks, and runtime dependency availability.
+
+### Findings
+
+- The notebook's modeling logic was not reusable or directly runtime-tested; only static notebook checks existed.
+- Dataset validation accepted some dangerous inputs: empty files/frames, all-missing features, and positive/negative infinity. Small datasets could reach an opaque five-fold-CV failure after the split.
+- ROC AUC probability selection relied on column position rather than the estimator's class schema, and grid-search failures could be silently converted to `NaN` via the default `error_score`.
+- Repository-default data paths were relative to the notebook process's current directory rather than the repository module, and notebook validation did not reject stale execution counts or validate the modeling module.
+
+### Fixes made
+
+- Added `cancer_screening.py` as the tested source of truth for path resolution, schema validation, stratified splitting, leakage-safe pipelines, model construction, and held-out evaluation.
+- Added explicit checks for empty data, duplicate columns, invalid B/M labels, all-missing features, non-finite measurements, both-class requirements, held-out class presence, and adequate training rows for five-fold CV.
+- Made ROC AUC use the estimator's `classes_` schema and changed KNN grid search to `error_score="raise"`; retained deterministic seeds and shuffled stratified CV.
+- Rebuilt the notebook as output-free, execution-count-free orchestration over the module. Extended the validator and tests to cover notebook state, module contracts, missing-data behavior, schema checks, and small-data failures.
+- Updated README usage/limitations and added explicit pytest discovery configuration. No data, metrics, generated artifacts, or secrets were added.
+
+### Validation and remaining limits
+
+The follow-up checks are recorded in the final review result. The repository still intentionally lacks `Cancer_Data.csv`, so no end-to-end fit or clinical/research metric result is claimed. Notebook execution also depends on installing the declared Jupyter/runtime dependencies; static checks and module/unit checks do not substitute for a real-data run.
